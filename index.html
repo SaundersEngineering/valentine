@@ -3,68 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine?</title>
+    <title>A Special Message ❤️</title>
     <style>
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #ffe6e6;
             text-align: center;
+            padding: 20px;
         }
 
-        h1 { color: #d63384; font-size: 3rem; }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+        }
 
-        .container { position: relative; width: 100%; max-width: 400px; height: 300px; }
+        h1 { color: #d63384; margin-bottom: 20px; }
+        p { font-size: 1.1rem; line-height: 1.6; color: #444; }
+
+        .btn-container {
+            position: relative;
+            height: 150px;
+            margin-top: 20px;
+        }
 
         button {
             padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s;
+            position: absolute;
+            transition: all 0.2s ease;
         }
 
-        #yesBtn { background-color: #ff4d6d; color: white; margin-right: 20px; }
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            left: 50%;
+            transform: translateX(-110%);
+        }
 
         #noBtn {
-            background-color: #888;
+            background-color: #adb5bd;
             color: white;
-            position: absolute; /* Allows it to move freely */
+            left: 50%;
+            transform: translateX(10%);
         }
 
-        .heart { font-size: 50px; }
+        ul {
+            text-align: left;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            list-style-type: '✈️ ';
+        }
+
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="heart">💖</div>
-    <h1>Will you be my Valentine?</h1>
+    <div id="phase1" class="card">
+        <div style="font-size: 50px;">💖</div>
+        <h1>Will you be my Valentine?</h1>
+        <div class="btn-container">
+            <button id="yesBtn" onclick="nextPhase(2)">Yes!</button>
+            <button id="noBtn" onmouseover="moveButton(this)" onclick="moveButton(this)">No</button>
+        </div>
+    </div>
 
-    <div class="container">
-        <button id="yesBtn" onclick="celebrate()">Yes!</button>
-        <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+    <div id="phase2" class="card hidden">
+        <div style="font-size: 50px;">✈️</div>
+        <h1>Yay! ❤️ Now...</h1>
+        <p>Will you come on holiday with me?</p>
+        <div class="btn-container">
+            <button id="yesBtn2" style="left:50%; transform: translateX(-110%); background:#ff4d6d; color:white;" onclick="nextPhase(3)">Yes!</button>
+            <button id="noBtn2" style="left:50%; transform: translateX(10%); background:#adb5bd; color:white;" onmouseover="moveButton(this)" onclick="moveButton(this)">No</button>
+        </div>
+    </div>
+
+    <div id="phase3" class="card hidden">
+        <div style="font-size: 50px;">🎒</div>
+        <h1>It's a Date!</h1>
+        <p>I can't wait! Here is what you'll need to pack for our 5-day trip (15-20°C):</p>
+        <ul>
+            <li>Backpack</li>
+            <li>Toothbrush & Toiletries</li>
+            <li>Phone and charger</li>
+            <li>Bible</li>
+            <li>Clothes for 5 days</li>
+            <li>Swimming Costume</li>
+            <li>Passport</li>
+            <li><strong>Your beautiful smile 😁</strong></li>
+        </ul>
+        <p style="margin-top:20px; font-weight:bold; color:#d63384;">See you soon! 🥰</p>
     </div>
 
     <script>
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            // Calculate random positions within the window
+        function moveButton(btn) {
+            // Get random coordinates within the visible window
             const x = Math.random() * (window.innerWidth - btn.offsetWidth);
             const y = Math.random() * (window.innerHeight - btn.offsetHeight);
             
+            btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
-        function celebrate() {
-            alert("Yay! I knew you'd say yes! ❤️");
-            document.body.innerHTML = "<h1>Can't wait! See you soon! 🌹🥰</h1><div style='font-size:100px'>👩‍❤️‍👨</div>";
+        function nextPhase(phase) {
+            // Hide all phases
+            document.getElementById('phase1').classList.add('hidden');
+            document.getElementById('phase2').classList.add('hidden');
+            document.getElementById('phase3').classList.add('hidden');
+
+            // Show current phase
+            document.getElementById('phase' + phase).classList.remove('hidden');
         }
     </script>
 
